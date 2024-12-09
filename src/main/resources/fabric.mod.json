@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "manalib",
+  "version": "${version}",
+  "name": "ManaLib",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "icon": "assets/manalib/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "org.manadependants.manalib.client.ManalibClient"
+    ],
+    "main": [
+      "org.manadependants.manalib.Manalib"
+    ]
+  },
+  "mixins": [
+    "manalib.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

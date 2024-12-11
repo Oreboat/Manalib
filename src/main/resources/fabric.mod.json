@@ -17,12 +17,14 @@
       "org.manadependants.manalib.Manalib"
     ],
     "cardinal-components": [
-      "org.manadependants.manalib.components.player.ManaComponentImpl"
+      "org.manadependants.manalib.components.player.ManaComponentImpl",
+      "org.manadependants.manalib.components.server.WorldManaComponentImpl"
     ]
   },
   "custom": {
     "cardinal-components": [
-      "manalib:magik"
+      "manalib:mana",
+      "manalib:mana_density"
     ]
   },
   "mixins": [

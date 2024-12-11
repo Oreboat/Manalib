@@ -15,6 +15,14 @@
     ],
     "main": [
       "org.manadependants.manalib.Manalib"
+    ],
+    "cardinal-components": [
+      "org.manadependants.manalib.components.player.ManaComponentImpl"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "manalib:magik"
     ]
   },
   "mixins": [

@@ -13,7 +13,7 @@ import org.manadependants.manalib.components.player.ManaComponentImpl;
 
 import java.util.Random;
 
-public class ComponentRegistry implements EntityComponentInitializer {
+public class EntityComponentRegistry implements EntityComponentInitializer {
     public static final ComponentKey<ManaComponent> MANA_COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(
             new Identifier(Manalib.MODID, "mana"),
             ManaComponent.class

@@ -6,10 +6,9 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
-import org.manadependants.manalib.components.ComponentRegistry;
+import org.manadependants.manalib.components.EntityComponentRegistry;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -26,7 +25,7 @@ public class Manalib implements ModInitializer {
         PlayerEntity player = serverPlayNetworkHandler.player;
         UUID playerUUID = player.getUuid();
         if (!playedUUID.contains(playerUUID)) {
-            ComponentRegistry.initializeManaStats(player);
+            EntityComponentRegistry.initializeManaStats(player);
         }
         playedUUID.add(playerUUID);
     }

@@ -18,5 +18,6 @@ public interface ManaComponent extends Component {
     int getManaClarity();
     void setManaClarity(int value);
 
-    void regenMana();
+    void regenMana(float dimensionalManaDensity);
+
 }

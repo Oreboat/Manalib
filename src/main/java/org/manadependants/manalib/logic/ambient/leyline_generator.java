@@ -1,4 +1,4 @@
-package org.manadependants.manalib.ambient_mana;
+package org.manadependants.manalib.logic.ambient;
 
 public class leyline_generator {
 

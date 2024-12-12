@@ -8,6 +8,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen {
 
     private float currentMana;
     private float maxMana;
+    private boolean isLeyline;
 
     @Override
     public float getCurrentMana() {
@@ -27,9 +28,19 @@ public class ChunkManaImpl implements ManaChunkAmbientGen {
     @Override
     public void setMaxMana(float mana) {
         this.maxMana = mana;
-        if (currentMana > maxMana) {
-            currentMana = maxMana;
+        if (this.isLeyline) {
+            this.maxMana = maxMana*10;
         }
+    }
+
+    @Override
+    public boolean isLeylineChunk(){
+        return isLeyline;
+    }
+
+    @Override
+    public void setLeylineChunk(boolean leyline) {
+        this.isLeyline = leyline;
     }
 
     @Override

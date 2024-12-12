@@ -10,6 +10,9 @@ public interface ManaChunkAmbientGen extends Component, AutoSyncedComponent {
     float getMaxMana();
     void setMaxMana(float mana);
 
+    boolean isLeylineChunk();
+    void setLeylineChunk(boolean leyline);
+
     void regenManaOverTime();
     void consumeChunkMana(float amount);
 }

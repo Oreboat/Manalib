@@ -7,9 +7,13 @@ import dev.onyxstudios.cca.api.v3.world.WorldComponentInitializer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 import org.manadependants.manalib.Manalib;
+import org.manadependants.manalib.components.server.ChunkManaImpl;
 import org.manadependants.manalib.components.server.WorldManaComponentImpl;
+import org.manadependants.manalib.components.server.interfaces.ManaChunkAmbientGen;
 import org.manadependants.manalib.components.server.interfaces.ManaDimensionalDensityComponent;
 
 public class WorldComponentRegistry implements WorldComponentInitializer {
@@ -17,11 +21,15 @@ public class WorldComponentRegistry implements WorldComponentInitializer {
             new Identifier(Manalib.MODID, "mana_density"),
             ManaDimensionalDensityComponent.class
     );
-
+    public static final ComponentKey<ManaChunkAmbientGen> CHUNK_MANA_COMPONENT = ComponentRegistryV3.INSTANCE.getOrCreate(
+            new Identifier("manasystem", "chunk_mana"),
+            ManaChunkAmbientGen.class
+    );
 
     @Override
     public void registerWorldComponentFactories(WorldComponentFactoryRegistry registry){
         registry.register(MANA_DENSITY_COMPONENT, w -> new WorldManaComponentImpl());
+        registry.register(CHUNK_MANA_COMPONENT, w-> new ChunkManaImpl());
     }
 
     public static void initializeVanillaDimensions(ManaDimensionalDensityComponent component) {
@@ -34,6 +42,21 @@ public class WorldComponentRegistry implements WorldComponentInitializer {
         BlockPos center = new BlockPos(world.getSpawnPos());
         float averageTemperature = calculateAverageBiomeTemperature(world, center, 32); // 32-block radius
         calculateTemperatureBasedDensity(world, averageTemperature);// Example scaling factor
+    }
+
+    public static void initializeChunkMana(ServerWorld world, Chunk chunk) {
+        ManaChunkAmbientGen chunkMana = CHUNK_MANA_COMPONENT.get(chunk);
+        float biomeTemperature = world.getBiome(chunk.getPos().getStartPos().add(8,0,8)).value().getTemperature();
+        float density = chunkDensityTempCalc(world, biomeTemperature);
+        chunkMana.setMaxMana(density * 100000.0f);
+        chunkMana.setCurrentMana(chunkMana.getMaxMana());
+    }
+
+    private static float chunkDensityTempCalc(ServerWorld world, float temperature){
+        ManaDimensionalDensityComponent component = world.getComponent(MANA_DENSITY_COMPONENT);
+        float dimensionalDensity = component.getDensityForDimension(String.valueOf(world.getDimensionKey()));
+        float densityValue = Math.max(1.0f, dimensionalDensity/(1.0f + temperature));
+        return densityValue;
     }
 
     private void calculateTemperatureBasedDensity(ServerWorld world, float temperature) {

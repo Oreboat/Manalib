@@ -7,7 +7,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.manadependants.manalib.components.player.interfaces.BloodManaComp;
 
 public class BloodManaCompImpl implements BloodManaComp, AutoSyncedComponent {
-    private float bloodPurity;
+    private double bloodPurity;
     private float bloodMana;
     private boolean isBloodMage;
     private boolean isUnsafe;
@@ -15,12 +15,12 @@ public class BloodManaCompImpl implements BloodManaComp, AutoSyncedComponent {
 
 
     @Override
-    public float getBloodPurity() {
+    public double getBloodPurity() {
         return bloodPurity;
     }
 
     @Override
-    public void setBloodPurity(float amount) {
+    public void setBloodPurity(double amount) {
         this.bloodPurity = amount;
 
     }

@@ -3,8 +3,8 @@ package org.manadependants.manalib.components.player.interfaces;
 import dev.onyxstudios.cca.api.v3.component.Component;
 
 public interface BloodManaComp extends Component {
-    float getBloodPurity();
-    void setBloodPurity(float amount);
+    double getBloodPurity();
+    void setBloodPurity(double amount);
 
     float getBloodManaValue();
     void setBloodManaValue(float amount);

@@ -29,7 +29,6 @@ public class WorldComponentRegistry implements WorldComponentInitializer {
     @Override
     public void registerWorldComponentFactories(WorldComponentFactoryRegistry registry){
         registry.register(MANA_DENSITY_COMPONENT, w -> new WorldManaComponentImpl());
-        registry.register(CHUNK_MANA_COMPONENT, w-> new ChunkManaImpl());
     }
 
     public static void initializeVanillaDimensions(ManaDimensionalDensityComponent component) {

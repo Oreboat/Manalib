@@ -1,6 +1,7 @@
 package org.manadependants.manalib;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,6 +20,9 @@ public class Manalib implements ModInitializer {
     @Override
     public void onInitialize() {
         ServerPlayConnectionEvents.JOIN.register(this::onPlayerJoin);
+        ServerChunkEvents.CHUNK_LOAD.register((world, chunk) ->{
+
+        });
     }
 
     private void onPlayerJoin(ServerPlayNetworkHandler serverPlayNetworkHandler, PacketSender packetSender, MinecraftServer server){
@@ -26,6 +30,7 @@ public class Manalib implements ModInitializer {
         UUID playerUUID = player.getUuid();
         if (!playedUUID.contains(playerUUID)) {
             EntityComponentRegistry.initializeManaStats(player);
+            EntityComponentRegistry.initBloodPurity(player);
         }
         playedUUID.add(playerUUID);
     }

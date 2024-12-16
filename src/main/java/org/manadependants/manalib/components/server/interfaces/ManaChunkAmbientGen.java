@@ -2,8 +2,9 @@ package org.manadependants.manalib.components.server.interfaces;
 
 import dev.onyxstudios.cca.api.v3.component.Component;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import net.minecraft.network.PacketByteBuf;
 
-public interface ManaChunkAmbientGen extends Component, AutoSyncedComponent {
+public interface ManaChunkAmbientGen extends Component{
     float getCurrentMana();
     void setCurrentMana(float mana);
 
@@ -15,4 +16,6 @@ public interface ManaChunkAmbientGen extends Component, AutoSyncedComponent {
 
     void regenManaOverTime();
     void consumeChunkMana(float amount);
+
+    void writeSyncPacket(PacketByteBuf buf);
 }

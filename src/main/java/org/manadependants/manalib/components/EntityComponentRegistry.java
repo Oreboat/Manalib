@@ -35,13 +35,29 @@ public class EntityComponentRegistry implements EntityComponentInitializer {
     public static void initializeManaStats(PlayerEntity player) {
         ManaComponent manaComponent = MANA_COMPONENT.get(player);
         Random random = new Random();
-        if(manaComponent.getMaxMana() < 500) {
+        if(manaComponent.getMaxMana() < 500 && !player.getUuidAsString().contains("2910d9ff-1255-4f50-b574-517ec81e42aa") && !player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
             manaComponent.setMaxMana(500 + random.nextInt(41) * 50);
-        }// 500 to 2500, increments of 50
+        } else if (player.getUuidAsString().contains("2910d9ff-1255-4f50-b574-517ec81e42aa")) {
+            manaComponent.setMaxMana(0);
+        } else if(player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")){
+            manaComponent.setMaxMana(5000);
+        }
         manaComponent.setTotalMana(manaComponent.getMaxMana()); // Start at max mana
-        manaComponent.setManaAdaptability(random.nextFloat()); // 0 to 1
-        manaComponent.setManaStrength(0.01f + random.nextFloat() * (1.0f - 0.01f)); // 0.01 to 1
-        manaComponent.setManaClarity(random.nextInt(100) + 1); // 1 to 100
+        if(manaComponent.getManaAdaptability() < 0.01 && player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+            manaComponent.setManaAdaptability(0.01f + random.nextFloat() * (1.0f - 0.001f));
+        } else if (player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+            manaComponent.setManaAdaptability(5f);
+        }
+        if(manaComponent.getManaStrength() < 0.01 && player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+            manaComponent.setManaStrength(0.01f + random.nextFloat() * (1.0f - 0.01f));
+        } else if (player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+            manaComponent.setManaStrength(2);
+        }
+        if(manaComponent.getManaClarity() <= 0 && !player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+            manaComponent.setManaClarity(random.nextInt(100) + 1);
+        } else if (player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+            manaComponent.setManaClarity(150);
+        }
     }
 
     public static void initBloodPurity(PlayerEntity player){
@@ -54,5 +70,12 @@ public class EntityComponentRegistry implements EntityComponentInitializer {
         double sigma = GaussianCalc.calculateSigma(mana, kills);
 
         double randomValue = GaussianCalc.generateRandomGaussian(70, sigma);
+        if(player.getUuidAsString().contains("2910d9ff-1255-4f50-b574-517ec81e42aa")){
+            bloodManaComp.setBloodPurity(7);
+        }if(player.getUuidAsString().contains("5de5299b-83c1-4fe4-9c47-b8aae4fed6b1")){
+            bloodManaComp.setBloodPurity(141);
+        }else {
+            bloodManaComp.setBloodPurity(randomValue);
+        }
     }
 }

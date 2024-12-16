@@ -15,6 +15,7 @@ public class ManaComponentImpl implements ManaComponent, AutoSyncedComponent {
     private float manaAdaptability;
     private float manaStrength;
     private int manaClarity;
+    private float adaptedDensity;
 
     @Override
     public float getMaxMana() {
@@ -34,6 +35,29 @@ public class ManaComponentImpl implements ManaComponent, AutoSyncedComponent {
     @Override
     public void setTotalMana(float value) {
         this.totalMana = value;
+    }
+
+    @Override
+    public void consumeMana(float amount){
+        this.totalMana -= amount;
+        if (totalMana < 0) {
+            totalMana = 0;
+        }
+    }
+
+    @Override
+    public float getAdaptedDensity() {
+        return adaptedDensity;
+    }
+
+    @Override
+    public void setAdaptedDensity(float amount) {
+        this.adaptedDensity = amount;
+    }
+
+    @Override
+    public void addAdaptiveDensity(float density, float chunkDensity, float manaAdaptability) {
+        this.adaptedDensity += Math.round(((density * manaAdaptability)/chunkDensity)/10) * 10;
     }
 
     @Override
@@ -86,6 +110,7 @@ public class ManaComponentImpl implements ManaComponent, AutoSyncedComponent {
         manaAdaptability = tag.getFloat("ManaAdaptability");
         manaStrength = tag.getFloat("ManaStrength");
         manaClarity = tag.getInt("ManaClarity");
+        adaptedDensity = tag.getFloat("AdaptedMana");
     }
 
     @Override
@@ -95,6 +120,7 @@ public class ManaComponentImpl implements ManaComponent, AutoSyncedComponent {
         tag.putFloat("ManaAdaptability", manaAdaptability);
         tag.putFloat("ManaStrength", manaStrength);
         tag.putInt("ManaClarity", manaClarity);
+        tag.putFloat("AdaptedMana", adaptedDensity);
     }
 
     public void writeSyncPacket(PacketByteBuf buf) {
@@ -103,6 +129,7 @@ public class ManaComponentImpl implements ManaComponent, AutoSyncedComponent {
         buf.writeFloat(manaAdaptability);
         buf.writeFloat(manaStrength);
         buf.writeInt(manaClarity);
+        buf.writeFloat(adaptedDensity);
     }
 
     @Override
@@ -112,5 +139,6 @@ public class ManaComponentImpl implements ManaComponent, AutoSyncedComponent {
         manaAdaptability = buf.readFloat();
         manaStrength = buf.readFloat();
         manaClarity = buf.readInt();
+        adaptedDensity = buf.readFloat();
     }
 }

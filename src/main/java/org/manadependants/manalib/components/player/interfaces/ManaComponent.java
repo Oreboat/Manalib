@@ -8,6 +8,11 @@ public interface ManaComponent extends Component {
 
     float getTotalMana();
     void setTotalMana(float value);
+    void consumeMana(float amount);
+
+    float getAdaptedDensity();
+    void setAdaptedDensity(float amount);
+    void addAdaptiveDensity(float density, float chunkDensity, float manaAdaptability);
 
     float getManaAdaptability();
     void setManaAdaptability(float value);

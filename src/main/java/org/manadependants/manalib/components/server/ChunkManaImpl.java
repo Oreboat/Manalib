@@ -1,14 +1,17 @@
 package org.manadependants.manalib.components.server;
 
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.nbt.NbtCompound;
-import org.manadependants.manalib.components.player.interfaces.ManaComponent;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.world.chunk.Chunk;
 import org.manadependants.manalib.components.server.interfaces.ManaChunkAmbientGen;
 
-public class ChunkManaImpl implements ManaChunkAmbientGen {
+public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
 
     private float currentMana;
     private float maxMana;
     private boolean isLeyline;
+    private Chunk chunk;
 
     @Override
     public float getCurrentMana() {
@@ -18,6 +21,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen {
     @Override
     public void setCurrentMana(float mana) {
         this.currentMana = Math.min(mana, maxMana);
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -31,6 +35,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen {
         if (this.isLeyline) {
             this.maxMana = maxMana*10;
         }
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -41,6 +46,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen {
     @Override
     public void setLeylineChunk(boolean leyline) {
         this.isLeyline = leyline;
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -49,6 +55,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen {
         if (currentMana > maxMana) {
             currentMana = maxMana;
         }
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -57,18 +64,35 @@ public class ChunkManaImpl implements ManaChunkAmbientGen {
         if (currentMana < 0) {
             currentMana = 0;
         }
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
     public void readFromNbt(NbtCompound tag) {
         currentMana = tag.getFloat("CurrentMana");
         maxMana = tag.getFloat("MaxMana");
+        isLeyline = tag.getBoolean("Leyline");
     }
 
     @Override
     public void writeToNbt(NbtCompound tag) {
         tag.putFloat("CurrentMana", currentMana);
         tag.putFloat("MaxMana", maxMana);
+        tag.putBoolean("Leyline", isLeyline);
+    }
+
+    @Override
+    public void writeSyncPacket(PacketByteBuf buf) {
+        buf.writeFloat(maxMana);
+        buf.writeFloat(currentMana);
+        buf.writeBoolean(isLeyline);
+    }
+
+    @Override
+    public void applySyncPacket(PacketByteBuf buf) {
+        maxMana = buf.readFloat();
+        currentMana = buf.readFloat();
+        isLeyline = buf.readBoolean();
     }
 }
 

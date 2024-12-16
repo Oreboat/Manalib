@@ -12,6 +12,7 @@ import org.manadependants.manalib.components.player.BloodManaCompImpl;
 import org.manadependants.manalib.components.player.interfaces.BloodManaComp;
 import org.manadependants.manalib.components.player.interfaces.ManaComponent;
 import org.manadependants.manalib.components.player.ManaComponentImpl;
+import org.manadependants.manalib.logic.maths.GaussianCalc;
 
 import java.util.Random;
 
@@ -47,8 +48,11 @@ public class EntityComponentRegistry implements EntityComponentInitializer {
         ManaComponent manaComponent = MANA_COMPONENT.get(player);
         BloodManaComp bloodManaComp = BLOOD_COMPONENT.get(player);
 
-        if(bloodManaComp.getBloodPurity() == 0){
+        double mana = (double) manaComponent.getMaxMana();
+        double kills = (double) bloodManaComp.getPlayerKills();
 
-        }
+        double sigma = GaussianCalc.calculateSigma(mana, kills);
+
+        double randomValue = GaussianCalc.generateRandomGaussian(70, sigma);
     }
 }

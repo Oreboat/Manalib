@@ -34,8 +34,8 @@ public class WorldComponentRegistry implements WorldComponentInitializer {
 
     public static void initializeVanillaDimensions(ManaDimensionalDensityComponent component) {
         component.modifyDensityForDimension("minecraft:overworld", 100.0f); // Overworld
-        component.modifyDensityForDimension("minecraft:nether", 1000.0f);  // Nether
-        component.modifyDensityForDimension("minecraft:the_end", 50.0f);   // End
+        component.modifyDensityForDimension("minecraft:nether", 50.0f);  // Nether
+        component.modifyDensityForDimension("minecraft:the_end", 1000.0f);   // End
     }
 
     public void updateManaDensity(ServerWorld world) {

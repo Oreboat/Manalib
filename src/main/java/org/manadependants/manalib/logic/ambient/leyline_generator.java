@@ -14,15 +14,16 @@ import java.util.Random;
 
 
 public class leyline_generator {
-    private static final int LEYLINE_CENTER_COUNT = 20; // Number of leyline center points
+    private static int LEYLINE_CENTER_COUNT; // Number of leyline center points
     private static final int VORONOI_SCALE = 32;
 
-    public static void leylineMapGeneration(long seed, Chunk chunk){
+    public static void leylineMapGeneration(ServerWorld world, Chunk chunk){
         ChunkPos chunkPos = chunk.getPos();
         ManaChunkAmbientGen chunkAmbientGen = chunk.getComponent(WorldComponentRegistry.CHUNK_MANA_COMPONENT);
         float densityMod = chunkAmbientGen.getChunkDensity();
-        double leylineValue = getLeylineValue(seed, chunkPos, densityMod);
-        if (leylineValue > 0.7) {
+        double leylineValue = getLeylineValue(world.getSeed(), chunkPos, densityMod);
+        LEYLINE_CENTER_COUNT = (world.getWorldBorder().getMaxRadius() * 2) * (world.getWorldBorder().getMaxRadius() * 2) / 16;
+        if (leylineValue > 0.9) {
             chunkAmbientGen.setLeylineChunk(true);
         } else {
             chunkAmbientGen.setLeylineChunk(false);

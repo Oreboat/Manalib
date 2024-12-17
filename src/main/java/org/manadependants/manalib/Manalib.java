@@ -29,7 +29,7 @@ public class Manalib implements ModInitializer {
             if(chunkAmbientGen.getMaxMana() <= 0){
                 WorldComponentRegistry.initializeChunkMana(world, chunk);
             }
-            leyline_generator.leylineMapGeneration(world.getSeed(), chunk);
+            leyline_generator.leylineMapGeneration(world, chunk);
         });
     }
 

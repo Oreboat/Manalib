@@ -11,6 +11,9 @@ public interface ManaChunkAmbientGen extends Component{
     float getMaxMana();
     void setMaxMana(float mana);
 
+    float getChunkDensity();
+    void setChunkDensity(float amount);
+
     boolean isLeylineChunk();
     void setLeylineChunk(boolean leyline);
 

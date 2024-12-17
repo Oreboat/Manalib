@@ -10,6 +10,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
 
     private float currentMana;
     private float maxMana;
+    private float chunkDensity;
     private boolean isLeyline;
     private Chunk chunk;
 
@@ -33,8 +34,19 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     public void setMaxMana(float mana) {
         this.maxMana = mana;
         if (this.isLeyline) {
-            this.maxMana = maxMana*10;
+            this.maxMana = maxMana*100;
         }
+        this.chunk.setNeedsSaving(true);
+    }
+
+    @Override
+    public float getChunkDensity() {
+        return chunkDensity;
+    }
+
+    @Override
+    public void setChunkDensity(float amount) {
+        this.chunkDensity = amount;
         this.chunk.setNeedsSaving(true);
     }
 
@@ -71,6 +83,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     public void readFromNbt(NbtCompound tag) {
         currentMana = tag.getFloat("CurrentMana");
         maxMana = tag.getFloat("MaxMana");
+        chunkDensity = tag.getFloat("ChunkDensity");
         isLeyline = tag.getBoolean("Leyline");
     }
 
@@ -78,6 +91,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     public void writeToNbt(NbtCompound tag) {
         tag.putFloat("CurrentMana", currentMana);
         tag.putFloat("MaxMana", maxMana);
+        tag.putFloat("ChunkDensity", chunkDensity);
         tag.putBoolean("Leyline", isLeyline);
     }
 
@@ -85,6 +99,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     public void writeSyncPacket(PacketByteBuf buf) {
         buf.writeFloat(maxMana);
         buf.writeFloat(currentMana);
+        buf.writeFloat(chunkDensity);
         buf.writeBoolean(isLeyline);
     }
 
@@ -92,6 +107,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     public void applySyncPacket(PacketByteBuf buf) {
         maxMana = buf.readFloat();
         currentMana = buf.readFloat();
+        chunkDensity = buf.readFloat();
         isLeyline = buf.readBoolean();
     }
 }

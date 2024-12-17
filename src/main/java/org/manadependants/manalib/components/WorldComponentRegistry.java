@@ -47,6 +47,7 @@ public class WorldComponentRegistry implements WorldComponentInitializer {
         ManaChunkAmbientGen chunkMana = CHUNK_MANA_COMPONENT.get(chunk);
         float biomeTemperature = world.getBiome(chunk.getPos().getStartPos().add(8,0,8)).value().getTemperature();
         float density = chunkDensityTempCalc(world, biomeTemperature);
+        chunkMana.setChunkDensity(density);
         chunkMana.setMaxMana(density * 100000.0f);
         chunkMana.setCurrentMana(chunkMana.getMaxMana());
     }

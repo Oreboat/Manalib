@@ -43,12 +43,12 @@ public class EntityComponentRegistry implements EntityComponentInitializer {
             manaComponent.setMaxMana(5000);
         }
         manaComponent.setTotalMana(manaComponent.getMaxMana()); // Start at max mana
-        if(manaComponent.getManaAdaptability() < 0.01 && player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+        if(manaComponent.getManaAdaptability() < 0.01 && !player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
             manaComponent.setManaAdaptability(0.01f + random.nextFloat() * (1.0f - 0.001f));
         } else if (player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
             manaComponent.setManaAdaptability(5f);
         }
-        if(manaComponent.getManaStrength() < 0.01 && player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+        if(manaComponent.getManaStrength() < 0.01 && !player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
             manaComponent.setManaStrength(0.01f + random.nextFloat() * (1.0f - 0.01f));
         } else if (player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
             manaComponent.setManaStrength(2);

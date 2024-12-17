@@ -31,16 +31,14 @@ public class WorldComponentRegistry implements WorldComponentInitializer {
         registry.register(MANA_DENSITY_COMPONENT, w -> new WorldManaComponentImpl());
     }
 
-    public static void initializeVanillaDimensions(ManaDimensionalDensityComponent component) {
+    public static void init(){
+        initializeDimensions((ManaDimensionalDensityComponent) MANA_DENSITY_COMPONENT);
+    }
+
+    public static void initializeDimensions(ManaDimensionalDensityComponent component) {
         component.modifyDensityForDimension("minecraft:overworld", 100.0f); // Overworld
         component.modifyDensityForDimension("minecraft:nether", 50.0f);  // Nether
         component.modifyDensityForDimension("minecraft:the_end", 1000.0f);   // End
-    }
-
-    public void updateManaDensity(ServerWorld world) {
-        BlockPos center = new BlockPos(world.getSpawnPos());
-        float averageTemperature = calculateAverageBiomeTemperature(world, center, 32); // 32-block radius
-        calculateTemperatureBasedDensity(world, averageTemperature);// Example scaling factor
     }
 
     public static void initializeChunkMana(ServerWorld world, Chunk chunk) {

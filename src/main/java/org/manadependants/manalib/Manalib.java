@@ -22,6 +22,7 @@ public class Manalib implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        WorldComponentRegistry.init();
         ServerPlayConnectionEvents.JOIN.register(this::onPlayerJoin);
         ServerChunkEvents.CHUNK_LOAD.register((world, chunk) ->{
             ManaChunkAmbientGen chunkAmbientGen = chunk.getComponent(WorldComponentRegistry.CHUNK_MANA_COMPONENT);

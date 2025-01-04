@@ -14,6 +14,7 @@ public interface ManaChunkAmbientGen extends Component{
     float getChunkDensity();
     void setChunkDensity(float amount);
 
+
     boolean isLeylineChunk();
     void setLeylineChunk(boolean leyline);
 

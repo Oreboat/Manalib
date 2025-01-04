@@ -7,8 +7,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
+import org.manadependants.manalib.components.ChunkComponentRegistry;
 import org.manadependants.manalib.components.EntityComponentRegistry;
-import org.manadependants.manalib.components.WorldComponentRegistry;
 import org.manadependants.manalib.components.server.interfaces.ManaChunkAmbientGen;
 import org.manadependants.manalib.logic.ambient.leyline_generator;
 
@@ -22,12 +22,12 @@ public class Manalib implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        WorldComponentRegistry.init();
+        ChunkComponentRegistry.init();
         ServerPlayConnectionEvents.JOIN.register(this::onPlayerJoin);
         ServerChunkEvents.CHUNK_LOAD.register((world, chunk) ->{
-            ManaChunkAmbientGen chunkAmbientGen = chunk.getComponent(WorldComponentRegistry.CHUNK_MANA_COMPONENT);
+            ManaChunkAmbientGen chunkAmbientGen = chunk.getComponent(ChunkComponentRegistry.CHUNK_MANA_COMPONENT);
             if(chunkAmbientGen.getMaxMana() <= 0){
-                WorldComponentRegistry.initializeChunkMana(world, chunk);
+                ChunkComponentRegistry.initializeChunkMana(world, chunk);
             }
             leyline_generator.leylineMapGeneration(world, chunk);
         });

@@ -1,13 +1,10 @@
 package org.manadependants.manalib.logic.ambient;
 
 
-import net.minecraft.server.world.ChunkHolder;
-import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.noise.SimplexNoiseSampler;
 import net.minecraft.world.chunk.Chunk;
-import org.manadependants.manalib.components.WorldComponentRegistry;
+import org.manadependants.manalib.components.ChunkComponentRegistry;
 import org.manadependants.manalib.components.server.interfaces.ManaChunkAmbientGen;
 
 import java.util.Random;
@@ -19,7 +16,7 @@ public class leyline_generator {
 
     public static void leylineMapGeneration(ServerWorld world, Chunk chunk){
         ChunkPos chunkPos = chunk.getPos();
-        ManaChunkAmbientGen chunkAmbientGen = chunk.getComponent(WorldComponentRegistry.CHUNK_MANA_COMPONENT);
+        ManaChunkAmbientGen chunkAmbientGen = chunk.getComponent(ChunkComponentRegistry.CHUNK_MANA_COMPONENT);
         float densityMod = chunkAmbientGen.getChunkDensity();
         double leylineValue = getLeylineValue(world.getSeed(), chunkPos, densityMod);
         LEYLINE_CENTER_COUNT = (world.getWorldBorder().getMaxRadius() * 2) * (world.getWorldBorder().getMaxRadius() * 2) / 16;

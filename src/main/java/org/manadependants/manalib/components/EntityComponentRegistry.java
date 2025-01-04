@@ -9,9 +9,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.manadependants.manalib.Manalib;
 import org.manadependants.manalib.components.player.BloodManaCompImpl;
+import org.manadependants.manalib.components.player.PlayerCooldownComponentImpl;
 import org.manadependants.manalib.components.player.interfaces.BloodManaComp;
 import org.manadependants.manalib.components.player.interfaces.ManaComponent;
 import org.manadependants.manalib.components.player.ManaComponentImpl;
+import org.manadependants.manalib.components.player.interfaces.PlayerCooldownComponent;
 import org.manadependants.manalib.logic.maths.GaussianCalc;
 
 import java.util.Random;
@@ -25,11 +27,16 @@ public class EntityComponentRegistry implements EntityComponentInitializer {
             new Identifier(Manalib.MODID, "blood"),
             BloodManaComp.class
     );
+    public static ComponentKey<PlayerCooldownComponent> COOLDOWN_COMP = ComponentRegistryV3.INSTANCE.getOrCreate(
+            new Identifier(Manalib.MODID, "cooldown"),
+            PlayerCooldownComponent.class
+    );
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry){
         registry.registerForPlayers(MANA_COMPONENT, player -> new ManaComponentImpl(), RespawnCopyStrategy.ALWAYS_COPY);
         registry.registerForPlayers(BLOOD_COMPONENT, player -> new BloodManaCompImpl(), RespawnCopyStrategy.ALWAYS_COPY);
+        registry.registerForPlayers(COOLDOWN_COMP, player -> new PlayerCooldownComponentImpl(), RespawnCopyStrategy.ALWAYS_COPY);
     }
 
     public static void initializeManaStats(PlayerEntity player) {

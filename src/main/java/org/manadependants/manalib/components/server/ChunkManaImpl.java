@@ -6,6 +6,9 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.world.chunk.Chunk;
 import org.manadependants.manalib.components.server.interfaces.ManaChunkAmbientGen;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
 
     private float currentMana;

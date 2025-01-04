@@ -18,7 +18,6 @@
     ],
     "cardinal-components": [
       "org.manadependants.manalib.components.player.ManaComponentImpl",
-      "org.manadependants.manalib.components.server.WorldManaComponentImpl",
       "org.manadependants.manalib.components.server.ChunkManaImpl",
       "org.manadependants.manalib.components.player.BloodManaCompImpl"
     ]
@@ -26,7 +25,6 @@
   "custom": {
     "cardinal-components": [
       "manalib:mana",
-      "manalib:mana_density",
       "manalib:blood",
       "manalib:chunk_mana"
     ]

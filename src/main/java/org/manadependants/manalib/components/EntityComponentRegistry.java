@@ -65,6 +65,11 @@ public class EntityComponentRegistry implements EntityComponentInitializer {
         } else if (player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
             manaComponent.setManaClarity(150);
         }
+        if(manaComponent.getAdaptedDensity() <= 0 && !player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+            manaComponent.setAdaptedDensity(100);
+        } else if (player.getUuidAsString().contains("8ee54b35-adce-4c61-8846-a4e698915406")) {
+            manaComponent.setAdaptedDensity(5000000);
+        }
     }
 
     public static void initBloodPurity(PlayerEntity player){

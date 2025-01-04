@@ -19,14 +19,16 @@
     "cardinal-components": [
       "org.manadependants.manalib.components.player.ManaComponentImpl",
       "org.manadependants.manalib.components.server.ChunkManaImpl",
-      "org.manadependants.manalib.components.player.BloodManaCompImpl"
+      "org.manadependants.manalib.components.player.BloodManaCompImpl",
+      "org.manadependants.manalib.components.player.PlayerCooldownComponentImpl"
     ]
   },
   "custom": {
     "cardinal-components": [
       "manalib:mana",
       "manalib:blood",
-      "manalib:chunk_mana"
+      "manalib:chunk_mana",
+      "manalib:cooldown"
     ]
   },
   "mixins": [

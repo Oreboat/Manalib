@@ -2,13 +2,19 @@ package org.manadependants.manalib;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.WorldChunk;
 import org.manadependants.manalib.components.ChunkComponentRegistry;
 import org.manadependants.manalib.components.EntityComponentRegistry;
+import org.manadependants.manalib.components.player.interfaces.ManaComponent;
 import org.manadependants.manalib.components.server.interfaces.ManaChunkAmbientGen;
 import org.manadependants.manalib.logic.ambient.leyline_generator;
 
@@ -31,6 +37,27 @@ public class Manalib implements ModInitializer {
             }
             leyline_generator.leylineMapGeneration(world, chunk);
         });
+        ServerTickEvents.END_SERVER_TICK.register(this::playerDimensionAdaptation);
+    }
+
+    private void playerDimensionAdaptation(MinecraftServer server) {
+        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            String dimensionKey = player.getWorld().getDimensionKey().toString();
+            ManaComponent mana = player.getComponent(EntityComponentRegistry.MANA_COMPONENT);
+            float adaptedMana = mana.getAdaptedDensity();
+            float worldDensity = ChunkComponentRegistry.getDensityForDimension(dimensionKey);
+            if(worldDensity <= 10*adaptedMana){
+                adaptedMana += worldDensity/1000;
+                mana.setAdaptedDensity(adaptedMana);
+            } else if (worldDensity > 10*adaptedMana) {
+                float health = player.getHealth();
+                float damage = worldDensity/(10*adaptedMana);
+                player.setHealth(health - (0.2f*damage));
+                adaptedMana += worldDensity/1000;
+                mana.setAdaptedDensity(adaptedMana);
+            }
+
+        }
     }
 
     private void onPlayerJoin(ServerPlayNetworkHandler serverPlayNetworkHandler, PacketSender packetSender, MinecraftServer server){
@@ -42,4 +69,5 @@ public class Manalib implements ModInitializer {
         }
         playedUUID.add(playerUUID);
     }
+
 }

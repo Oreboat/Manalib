@@ -123,7 +123,8 @@ public class ManaComponentImpl implements ManaComponent, AutoSyncedComponent {
         tag.putFloat("AdaptedMana", adaptedDensity);
     }
 
-    public void writeSyncPacket(PacketByteBuf buf) {
+    @Override
+    public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
         buf.writeFloat(maxMana);
         buf.writeFloat(totalMana);
         buf.writeFloat(manaAdaptability);

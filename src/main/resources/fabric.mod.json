@@ -16,12 +16,9 @@
     "main": [
       "org.manadependants.manalib.Manalib"
     ],
-    "cardinal-components": [
-      "org.manadependants.manalib.components.player.ManaComponentImpl",
-      "org.manadependants.manalib.components.server.ChunkManaImpl",
-      "org.manadependants.manalib.components.player.BloodManaCompImpl",
-      "org.manadependants.manalib.components.player.PlayerCooldownComponentImpl"
-    ]
+    "cardinal-components-entity": ["org.manadependants.manalib.components.EntityComponentRegistry"],
+    "cardinal-components-chunk":["org.manadependants.manalib.components.ChunkComponentRegistry"]
+
   },
   "custom": {
     "cardinal-components": [

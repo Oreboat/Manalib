@@ -15,7 +15,11 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     private float maxMana;
     private float chunkDensity;
     private boolean isLeyline;
-    private Chunk chunk;
+    private final Chunk chunk;
+
+    public ChunkManaImpl(Chunk chunk) {
+        this.chunk = chunk;
+    }
 
     @Override
     public float getCurrentMana() {
@@ -25,6 +29,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     @Override
     public void setCurrentMana(float mana) {
         this.currentMana = Math.min(mana, maxMana);
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -38,6 +43,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
         if (this.isLeyline) {
             this.maxMana = maxMana*100;
         }
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -48,6 +54,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     @Override
     public void setChunkDensity(float amount) {
         this.chunkDensity = amount;
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -58,6 +65,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
     @Override
     public void setLeylineChunk(boolean leyline) {
         this.isLeyline = leyline;
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -66,6 +74,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
         if (currentMana > maxMana) {
             currentMana = maxMana;
         }
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -74,6 +83,7 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
         if (currentMana < 0) {
             currentMana = 0;
         }
+        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -98,7 +108,6 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
         buf.writeFloat(currentMana);
         buf.writeFloat(chunkDensity);
         buf.writeBoolean(isLeyline);
-        this.chunk.setNeedsSaving(true);
     }
 
     @Override
@@ -107,7 +116,6 @@ public class ChunkManaImpl implements ManaChunkAmbientGen, AutoSyncedComponent {
         currentMana = buf.readFloat();
         chunkDensity = buf.readFloat();
         isLeyline = buf.readBoolean();
-        this.chunk.setNeedsSaving(true);
     }
 }
 

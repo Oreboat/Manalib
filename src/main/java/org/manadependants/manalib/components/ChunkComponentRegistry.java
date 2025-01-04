@@ -24,7 +24,7 @@ public class ChunkComponentRegistry implements ChunkComponentInitializer {
 
     @Override
     public void registerChunkComponentFactories(ChunkComponentFactoryRegistry registery) {
-        registery.register(CHUNK_MANA_COMPONENT, c -> new ChunkManaImpl());
+        registery.register(CHUNK_MANA_COMPONENT, ChunkManaImpl::new);
     }
 
     public static void init(){

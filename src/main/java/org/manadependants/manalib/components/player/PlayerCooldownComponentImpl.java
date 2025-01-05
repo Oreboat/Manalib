@@ -15,7 +15,7 @@ public class PlayerCooldownComponentImpl implements PlayerCooldownComponent, Aut
 
     @Override
     public void setCooldown(String spellId, int cooldownTicks) {
-        cooldowns.put(spellId, System.currentTimeMillis() + (cooldownTicks * 50));
+        cooldowns.put(spellId, System.currentTimeMillis() + (cooldownTicks * 50L));
     }
 
     @Override

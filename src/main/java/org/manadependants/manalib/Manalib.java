@@ -31,11 +31,11 @@ public class Manalib implements ModInitializer {
         ChunkComponentRegistry.init();
         ServerPlayConnectionEvents.JOIN.register(this::onPlayerJoin);
         ServerChunkEvents.CHUNK_LOAD.register((world, chunk) ->{
-            ManaChunkAmbientGen chunkAmbientGen = chunk.getComponent(ChunkComponentRegistry.CHUNK_MANA_COMPONENT);
+            ManaChunkAmbientGen chunkAmbientGen = ChunkComponentRegistry.CHUNK_MANA_COMPONENT.get(chunk);
             if(chunkAmbientGen.getMaxMana() <= 0){
                 ChunkComponentRegistry.initializeChunkMana(world, chunk);
             }
-            leyline_generator.leylineMapGeneration(world, chunk);
+            /*leyline_generator.leylineMapGeneration(world, chunk);*/
         });
         ServerTickEvents.END_SERVER_TICK.register(this::playerDimensionAdaptation);
     }
@@ -43,7 +43,7 @@ public class Manalib implements ModInitializer {
     private void playerDimensionAdaptation(MinecraftServer server) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             String dimensionKey = player.getWorld().getDimensionKey().toString();
-            ManaComponent mana = player.getComponent(EntityComponentRegistry.MANA_COMPONENT);
+            ManaComponent mana = EntityComponentRegistry.MANA_COMPONENT.get(player);
             float adaptedMana = mana.getAdaptedDensity();
             float worldDensity = ChunkComponentRegistry.getDensityForDimension(dimensionKey);
             if(worldDensity <= 10*adaptedMana){
